@@ -1,0 +1,19 @@
+{
+    "name": "Form",
+    "alias": "form",
+    "description": "Form module for EncoreCMS",
+    "keywords": ["forms","emails","Send Emails"],
+    "version": "1.0.0",
+	"active": 1,
+    "priority": 1,
+    "providers": [
+        "Modules\\Form\\Providers\\EventServiceProvider",
+        "Modules\\Form\\Providers\\FormServiceProvider",
+        "Modules\\Form\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {
+        "Forms": "Modules\\Form\\Facades\\FormFacade"
+    },
+    "files": [],
+    "requires": []
+}
