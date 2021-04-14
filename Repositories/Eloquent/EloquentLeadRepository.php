@@ -8,7 +8,7 @@ use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepository
 {
-  public function getItemsBy($params)
+  public function getItemsBy($params = false)
   {
     // INITIALIZE QUERY
     $query = $this->model->query();

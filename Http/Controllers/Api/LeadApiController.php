@@ -10,7 +10,7 @@ use Modules\Form\Repositories\FormRepository;
 use Modules\Form\Repositories\LeadRepository;
 use Modules\Form\Services\LeadsExportService;
 use Modules\Form\Transformers\LeadTransformer;
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+use Modules\Core\Http\Controllers\Api\BaseApiController;
 
 // Base Api
 
@@ -105,6 +105,16 @@ class LeadApiController extends BaseApiController
             if (empty($form->id)) {
                 throw new \Exception(trans('form::common.forms_not_found'));
             }
+
+
+            $validator = \Validator::make($data, [
+                'g-recaptcha-response' => 'required|captcha'
+            ]);
+            if ($validator->fails()) {
+                $response['status']="fail";
+                $response['data']["g-recaptcha-response"] = trans('forms::common.captcha_required');
+            }
+
             $attr = array();
             $attr['form'] = $form;
             $attr['form_id'] = $form->id;

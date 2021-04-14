@@ -23,7 +23,8 @@
     }
   </style>
   <script>
-
+      window.jQuery = window.$ = jQuery;
+      (function ($) {
       $(document).ready(function () {
           var formid = '#{{$id}}';
           $(formid).submit(function (event) {
@@ -42,12 +43,12 @@
                   },
                   success: function (data) {
                       $('#loading-form').css('display', 'none');
-                      $(".content-form{{$options['rand']}}").html('<p class="alert bg-primary" role="alert"><span>' + data.data + '</span> </p>');
+                      $(".content-form{{$id}}").html('<p class="alert bg-primary" role="alert" style=" padding:10px; border-radius: 10px; color: #fff"><span>' + data.data + '</span> </p>');
 
                   },
                   error: function (data) {
                       $('#loading-form').css('display', 'none');
-                      $(".content-form{{$options['rand']}} .formerror").append('<p class="alert alert-danger" role="alert"><span>' + data.responseJSON.errors + '</span> </p>');
+                      $(".content-form{{$id}} .formerror").append('<p class="alert alert-danger" role="alert"  style="padding:10px; border-radius: 10px; color: #fff"><span>' + data.responseJSON.errors + '</span> </p>');
                   }
               })
           })
@@ -61,7 +62,7 @@
           }
           return returnArray;
       }
-
+      })(jQuery);
 
   </script>
 

@@ -9,7 +9,7 @@ use Modules\Form\Http\Requests\CreateFormRequest;
 use Modules\Form\Http\Requests\UpdateFormRequest as UpdateRequest;
 
 // Base Api
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+use Modules\Core\Http\Controllers\Api\BaseApiController;
 
 // Transformers
 use Modules\Form\Transformers\FormTransformer;
