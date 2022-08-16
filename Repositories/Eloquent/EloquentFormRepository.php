@@ -3,29 +3,34 @@
 namespace Modules\Form\Repositories\Eloquent;
 
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Form\Entities\Form;
 use Modules\Form\Repositories\FormRepository;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentFormRepository extends EloquentBaseRepository implements FormRepository
 {
-    public function getItemsBy($params=false)
+    /**
+     * Get resources by an array of attributes
+     * @param bool|object $params
+     * @return LengthAwarePaginator|Collection
+     */
+    public function getItemsBy(bool|object $params=false): Collection|LengthAwarePaginator
     {
-        // INITIALIZE QUERY
         $query = $this->model->query();
-        /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
+        if (in_array('*', $params->include)) {
             $query->with([]);
-        } else {//Especific relationships
-            $includeDefault = ['translations'];//Default relationships
-            if (isset($params->include))//merge relations with default relationships
+        } else {
+            $includeDefault = ['translations'];
+            if (isset($params->include))
                 $includeDefault = array_merge($includeDefault, $params->include);
-            $query->with($includeDefault);//Add Relationships to query
+            $query->with($includeDefault);
         }
-        // FILTERS
         if ($params->filter) {
             $filter = $params->filter;
-            //add filter by search
             if (isset($filter->search)) {
-                //find search in columns
                 $query->where(function ($query) use ($filter) {
                     $query->whereHas('translations', function ($query) use ($filter) {
                         $query->where('locale', $filter->locale)
@@ -33,30 +38,25 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
                     })->orWhere('id', 'like', $filter->search . '%')->orWhere('system_name', 'like', $filter->search . '%');
                 });
             }
-            //Filter by date
             if (isset($filter->date)) {
-                $date = $filter->date;//Short filter date
+                $date = $filter->date;
                 $date->field = $date->field ?? 'created_at';
-                if (isset($date->from))//From a date
+                if (isset($date->from))
                     $query->whereDate($date->field, '>=', $date->from);
-                if (isset($date->to))//to a date
+                if (isset($date->to))
                     $query->whereDate($date->field, '<=', $date->to);
             }
-            //Order by
             if (isset($filter->order)) {
-                $orderByField = $filter->order->field ?? 'created_at';//Default field
-                $orderWay = $filter->order->way ?? 'desc';//Default way
-                $query->orderBy($orderByField, $orderWay);//Add order to query
+                $orderByField = $filter->order->field ?? 'created_at';
+                $orderWay = $filter->order->way ?? 'desc';
+                $query->orderBy($orderByField, $orderWay);
             }
-            //Filter by parent ID
             if (isset($filter->userId) && !empty($filter->userId)) {
                 $query->where("user_id", $filter->userId);
             }
         }
-        /*== FIELDS ==*/
         if (isset($params->fields) && count($params->fields))
             $query->select($params->fields);
-        /*== REQUEST ==*/
         if (isset($params->page) && $params->page) {
             return $query->paginate($params->take);
         } else {
@@ -64,59 +64,59 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
             return $query->get();
         }
     }
-
-    public function getItem($criteria, $params = false)
+    /**
+     * Get resources by an array of attributes
+     * @param string $criteria
+     * @param bool|object $params
+     * @return Model|Collection|Builder|array|null
+     */
+    public function getItem(string $criteria, $params = false): Model|Collection|Builder|array|null
     {
-        // INITIALIZE QUERY
         $query = $this->model->query();
-        /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
+        if (in_array('*', $params->include)) {
             $query->with([]);
-        } else {//Especific relationships
-            $includeDefault = ['translations'];//Default relationships
-            if (isset($params->include))//merge relations with default relationships
+        } else {
+            $includeDefault = ['translations'];
+            if (isset($params->include))
                 $includeDefault = array_merge($includeDefault, $params->include);
-            $query->with($includeDefault);//Add Relationships to query
+            $query->with($includeDefault);
         }
-        /*== FIELDS ==*/
         if (is_array($params->fields) && count($params->fields))
             $query->select($params->fields);
-        /*== FILTER ==*/
         if (isset($params->filter)) {
             $filter = $params->filter;
-            if (isset($filter->field))//Filter by specific field
+            if (isset($filter->field))
                 $field = $filter->field;
-            // find translatable attributes
             $translatedAttributes = $this->model->translatedAttributes;
-            // filter by translatable attributes
             if (isset($field) && in_array($field, $translatedAttributes))//Filter by slug
                 $query->whereHas('translations', function ($query) use ($criteria, $filter, $field) {
                     $query->where('locale', $filter->locale)
                         ->where($field, $criteria);
                 });
             else
-                // find by specific attribute or by id
                 $query->where($field ?? 'id', $criteria);
         }
-        /*== REQUEST ==*/
         return $query->first();
     }
 
-    public function create($data)
+    /**
+     * Create a resource
+     * @param  $data
+     * @return Model|Collection|Builder|array|null
+     */
+
+    public function create($data): Model|Collection|Builder|array|null
     {
         $form = $this->model->create($data);
-        if ($form) {
-            $form->fields()->update(array_get($data, 'fields', []));
-        }
         return $form;
     }
 
 
     /**
      * @param string $systemName
-     * @return Slider
+     * @return Form
      */
-    public function findBySystemName($systemName)
+    public function findBySystemName(string $systemName):Form
     {
         return $this->model->with('translations','fields')->where('system_name', '=', $systemName)->first();
     }

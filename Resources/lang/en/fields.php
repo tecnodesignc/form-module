@@ -14,8 +14,20 @@ return [
         'create field' => 'Create a field',
     ],
     'table' => [
+        'label'=>'Label',
+        'type'=>'Type',
+        'name'=>'Name',
+        'order'=>  'Order'
     ],
     'form' => [
+        'label'=>'Label',
+        'placeholder'=>'Placeholder',
+        'description'=>'Description',
+        'Non translatable fields'=>'Non translatable fields',
+        'type'=>'Type',
+        'name'=>'Name',
+        'required'=>'Required',
+        'order'=>  'Order'
     ],
     'messages' => [
     ],

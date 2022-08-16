@@ -1,296 +1,109 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
-      xmlns:o="urn:schemas-microsoft-com:office:office">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="x-apple-disable-message-reformatting"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <style type="text/css">
-        /* Resets */
-        .ReadMsgBody {
-            width: 100%;
-            background-color: #ebebeb;
+        #body {
+            background-color: #e2e2e2;
+            padding: 20px 0;
+            color: #333333;
+            font-family: 'Open Sans', sans-serif;
         }
 
-        .ExternalClass {
-            width: 100%;
-            background-color: #ebebeb;
+        .date {
+            color: white;
         }
 
-        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-            line-height: 100%;
+        #template-mail {
+            background-color: #ffffff;
+            width: 70%;
+            margin: auto;
         }
 
-        a[x-apple-data-detectors] {
-            color: inherit !important;
-            text-decoration: none !important;
-            font-size: inherit !important;
-            font-family: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-        }
-
-        body {
-            -webkit-text-size-adjust: none;
-            -ms-text-size-adjust: none;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        .yshortcuts a {
-            border-bottom: none !important;
-        }
-
-        .rnb-del-min-width {
-            min-width: 0 !important;
-        }
-
-        /* Add new outlook css start */
-        .templateContainer {
-            max-width: 590px !important;
-            width: auto !important;
-        }
-
-        /* Add new outlook css end */
-        /* Image width by default for 3 columns */
-        img[class="rnb-col-3-img"] {
-            max-width: 170px;
-        }
-
-        /* Image width by default for 2 columns */
-        img[class="rnb-col-2-img"] {
-            max-width: 264px;
-        }
-
-        /* Image width by default for 2 columns aside small size */
-        img[class="rnb-col-2-img-side-xs"] {
-            max-width: 180px;
-        }
-
-        /* Image width by default for 2 columns aside big size */
-        img[class="rnb-col-2-img-side-xl"] {
-            max-width: 350px;
-        }
-
-        /* Image width by default for 1 column */
-        img[class="rnb-col-1-img"] {
-            max-width: 550px;
-        }
-
-        /* Image width by default for header */
-        img[class="rnb-header-img"] {
-            max-width: 590px;
-        }
-
-        /* Ckeditor line-height spacing */
-        .rnb-force-col p, ul, ol {
-            margin: 0px !important;
-        }
-
-        .rnb-del-min-width p, ul, ol {
-            margin: 0px !important;
-        }
-
-        /* tmpl-2 preview */
-        .rnb-tmpl-width {
-            width: 100% !important;
-        }
-
-        /* tmpl-11 preview */
-        .rnb-social-width {
-            padding-right: 15px !important;
-        }
-
-        /* tmpl-11 preview */
-        .rnb-social-align {
-            float: right !important;
-        }
-
-        /* Ul Li outlook extra spacing fix */
-        li {
-            mso-margin-top-alt: 0;
-            mso-margin-bottom-alt: 0;
-        }
-
-        /* Outlook fix */
-        table {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-        }
-
-        /* Outlook fix */
-        table, tr, td {
-            border-collapse: collapse;
-        }
-
-        /* Outlook fix */
-        p, a, li, blockquote {
-            mso-line-height-rule: exactly;
-        }
-
-        /* Outlook fix */
-        .msib-right-img {
-            mso-padding-alt: 0 !important;
-        }
-
-        @media only screen and (min-width: 590px) {
-            /* mac fix width */
-            .templateContainer {
-                width: 590px !important;
-            }
-        }
-
-        @media screen and (max-width: 360px) {
-            /* yahoo app fix width "tmpl-2 tmpl-10 tmpl-13" in android devices */
-            .rnb-yahoo-width {
-                width: 360px !important;
-            }
-        }
-
-        @media screen and (max-width: 380px) {
-            /* fix width and font size "tmpl-4 tmpl-6" in mobile preview */
-            .element-img-text {
-                font-size: 24px !important;
-            }
-
-            .element-img-text2 {
-                width: 230px !important;
-            }
-
-            .content-img-text-tmpl-6 {
-                font-size: 24px !important;
-            }
-
-            .content-img-text2-tmpl-6 {
-                width: 220px !important;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            td[class="rnb-container-padding"] {
-                padding-left: 10px !important;
-                padding-right: 10px !important;
-            }
-
-            /* force container nav to (horizontal) blocks */
-            td.rnb-force-nav {
-                display: inherit;
-            }
-
-            /* fix text alignment "tmpl-11" in mobile preview */
-            .rnb-social-text-left {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 15px;
-            }
-
-            .rnb-social-text-right {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        @media only screen and (max-width: 600px) {
-            /* center the address &amp; social icons */
-            .rnb-text-center {
-                text-align: center !important;
-            }
-
-            /* force container columns to (horizontal) blocks */
-            th.rnb-force-col {
-                display: block;
-                padding-right: 0 !important;
-                padding-left: 0 !important;
+        @media only screen and (max-width: 900px) {
+            #template-mail {
                 width: 100%;
             }
+        }
 
-            table.rnb-container {
-                width: 100% !important;
-            }
+        #contenido {
+            padding: 15px;
+        }
 
-            table.rnb-btn-col-content {
-                width: 100% !important;
-            }
+        header .header-top {
+            padding: 15px;
+        }
 
-            table.rnb-col-3 {
-                /* unset table align="left/right" */
-                float: none !important;
-                width: 100% !important;
-                /* change left/right padding and margins to top/bottom ones */
-                margin-bottom: 10px;
-                padding-bottom: 10px;
-                /*border-bottom: 1px solid #eee;*/
-            }
+        footer {
+            background-color:{{Setting::get('site::color-secondary')}};
+            color: white;
+        }
 
-            table.rnb-last-col-3 {
-                /* unset table align="left/right" */
-                float: none !important;
-                width: 100% !important;
-            }
+        footer .copyright {
+            color: #e2e2e2;
+            font-size: 14px;
+        }
 
-            table.rnb-col-2 {
-                /* unset table align="left/right" */
-                float: none !important;
-                width: 100% !important;
-                /* change left/right padding and margins to top/bottom ones */
-                margin-bottom: 10px;
-                padding-bottom: 10px;
-                /*border-bottom: 1px solid #eee;*/
-            }
+        .stripe {
+            background-color: {{Setting::get('site::color-secondary')}};
+            padding: 10px 20px;
+        }
 
-            table.rnb-col-2-noborder-onright {
-                /* unset table align="left/right" */
-                float: none !important;
-                width: 100% !important;
-                /* change left/right padding and margins to top/bottom ones */
-                margin-bottom: 10px;
-                padding-bottom: 10px;
-            }
+        /********* form ************/
+        .btn-requirement {
+            padding: 25px 0;
+        }
 
-            table.rnb-col-2-noborder-onleft {
-                /* unset table align="left/right" */
-                float: none !important;
-                width: 100% !important;
-                /* change left/right padding and margins to top/bottom ones */
-                margin-top: 10px;
-                padding-top: 10px;
-            }
+        .btn-requirement a {
+            text-decoration: none;
+            background-color:{{Setting::get('site::color-primary')}};
+            padding: 10px;
+            margin: 10px 0;
+            color: white;
+        }
 
-            table.rnb-last-col-2 {
-                /* unset table align="left/right" */
-                float: none !important;
-                width: 100% !important;
-            }
+        .seller {
+            margin-top: 20px;
+        }
 
-            table.rnb-col-1 {
-                /* unset table align="left/right" */
-                float: none !important;
-                width: 100% !important;
-            }
+        .seller span {
+            font-style: italic;
+        }
 
-            img.rnb-col-3-img {
-                /**max-width:none !important;**/
-                width: 100% !important;
-            }
+        .seller h3, .seller h4 {
+            margin: 2px;
+            font-weight: 400;
+            text-align: center;
+        }
 
-            img.rnb-col-2-img {
-                /**max-width:none !important;**/
-                width: 100% !important;
-            }
+        .contacto {
+            background-color:{{Setting::get('site::color-primary')}};
+            color: #e2e2e2;
+            padding: 15px;
+        }
 
-            img.rnb-col-2-img-side-xs {
-                /**max-width:none !important;**/
-                width: 100% !important;
-            }
+        .contacto a {
+            color: #e2e2e2;
+        }
+
+        /******** class **********/
+        .float-left {
+            float: left !important
+        }
+
+        .float-right {
+            float: right !important
+        }
+
+        .float-none {
+            float: none !important
+        }
+
+        .text-justify {
+            text-align: justify !important
+        }
 
             img.rnb-col-2-img-side-xl {
                 /**max-width:none !important;**/

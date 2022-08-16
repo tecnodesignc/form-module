@@ -4,9 +4,11 @@ namespace Modules\Form\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Form\Entities\Form;
 use Modules\Form\Entities\Lead;
 use Modules\Form\Http\Requests\CreateLeadRequest;
 use Modules\Form\Http\Requests\UpdateLeadRequest;
+use Modules\Form\Repositories\FormRepository;
 use Modules\Form\Repositories\LeadRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
@@ -15,13 +17,19 @@ class LeadController extends AdminBaseController
     /**
      * @var LeadRepository
      */
-    private $lead;
+    private LeadRepository $lead;
 
-    public function __construct(LeadRepository $lead)
+
+    private FormRepository $form;
+
+
+
+    public function __construct(LeadRepository $lead, FormRepository $form)
     {
         parent::__construct();
 
         $this->lead = $lead;
+        $this->form= $form;
     }
 
     /**
@@ -29,11 +37,11 @@ class LeadController extends AdminBaseController
      *
      * @return Response
      */
-    public function index()
+    public function index(Form $form)
     {
-        //$leads = $this->lead->all();
+        $leads = $form->leads;
 
-        return view('form::admin.leads.index', compact(''));
+        return view('form::admin.leads.index', compact('leads','form'));
     }
 
     /**

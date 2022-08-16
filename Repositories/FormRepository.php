@@ -3,29 +3,14 @@
 namespace Modules\Form\Repositories;
 
 use Modules\Core\Repositories\BaseRepository;
+use Modules\Form\Entities\Form;
 
 interface FormRepository extends BaseRepository
 {
     /**
-     * List or resources
-     * @param $params
-     * @return mixed
+     * @param string $systemName
+     * @return Form
      */
-    public function getItemsBy($params);
-
-    /**
-     * find a resource by id or slug
-     * @param $criteria
-     * @param $params
-     * @return mixed
-     */
-    public function getItem($criteria, $params);
-
-    /**
-     * Find by System Name
-     * @param $systemName
-     * @return mixed
-     */
-    public function findBySystemName($systemName);
+    public function findBySystemName(string $systemName): Form;
 
 }

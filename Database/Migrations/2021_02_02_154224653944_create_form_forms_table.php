@@ -18,6 +18,8 @@ class CreateFormFormsTable extends Migration
             $table->string('system_name', 40);
             $table->boolean('active')->default(false);
             $table->text('destination_email')->nullable();
+            $table->boolean('send_confirmation')->default(false);
+            $table->string('template', 40)->nullable();
             $table->integer('user_id')->unsigned()->nullable();;
             $table->foreign('user_id')->references('id')->on(config('auth.table', 'users'))->onDelete('cascade');
             $table->text('options')->nullable();
@@ -32,6 +34,9 @@ class CreateFormFormsTable extends Migration
      */
     public function down()
     {
+        Schema::table('form__forms', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
         Schema::dropIfExists('form__forms');
     }
 }

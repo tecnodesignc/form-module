@@ -1,14 +1,16 @@
-<tr>
-  <td style="font-size:16px; font-family:'Arial',Helvetica,sans-serif, sans-serif; color:#999;">
-    <p style="line-height:150%;"><span
-              style="font-size:18px;"><span
-                style="color:#33c0c9;"><strong>{{ $form->title }}</strong></span></span>
-    </p>
-    @foreach($data->values as $index => $field)
-      <p style="line-height:150%;"><span
-                style="line-height: 150%; font-weight: bold; background-color: transparent;">{{ $index }}:</span> {{ $field }} </p>
-    @endforeach
-    </p>
+@php
+$form=$lead['form'];
+$data=$lead['lead'];
+@endphp
 
-  </td>
-</tr>
+
+
+  <div id="contend-mail" class="p-3">
+    <h1>{{ $form->title }}</h1>
+    <br>
+    <div style="margin-bottom: 5px">
+      @foreach($data->values as $index => $field)
+        <p class="px-3"><strong>{{ $index }}:</strong> {{ $field }} </p>
+      @endforeach
+    </div>
+  </div>

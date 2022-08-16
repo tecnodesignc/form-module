@@ -9,6 +9,7 @@ use Modules\Form\Http\Requests\CreateFormRequest;
 use Modules\Form\Http\Requests\UpdateFormRequest;
 use Modules\Form\Repositories\FormRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
+use Modules\User\Repositories\UserRepository;
 
 class FormController extends AdminBaseController
 {
@@ -17,11 +18,17 @@ class FormController extends AdminBaseController
      */
     private $form;
 
-    public function __construct(FormRepository $form)
+    /**
+     * @var UserRepository
+     */
+    private $user;
+
+    public function __construct(FormRepository $form, UserRepository $user)
     {
         parent::__construct();
 
         $this->form = $form;
+        $this->user = $user;
     }
 
     /**
@@ -31,9 +38,9 @@ class FormController extends AdminBaseController
      */
     public function index()
     {
-        //$forms = $this->form->all();
+        $forms = $this->form->all();
 
-        return view('form::admin.forms.index', compact(''));
+        return view('form::admin.forms.index', compact('forms'));
     }
 
     /**
@@ -43,7 +50,8 @@ class FormController extends AdminBaseController
      */
     public function create()
     {
-        return view('form::admin.forms.create');
+        $users = $this->user->all();
+        return view('form::admin.forms.create',compact('users'));
     }
 
     /**
@@ -68,7 +76,8 @@ class FormController extends AdminBaseController
      */
     public function edit(Form $form)
     {
-        return view('form::admin.forms.edit', compact('form'));
+        $users = $this->user->all();
+        return view('form::admin.forms.edit', compact('form','users'));
     }
 
     /**

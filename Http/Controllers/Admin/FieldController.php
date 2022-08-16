@@ -5,6 +5,8 @@ namespace Modules\Form\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Form\Entities\Field;
+use Modules\Form\Entities\Form;
+use Modules\Form\Entities\Type;
 use Modules\Form\Http\Requests\CreateFieldRequest;
 use Modules\Form\Http\Requests\UpdateFieldRequest;
 use Modules\Form\Repositories\FieldRepository;
@@ -15,13 +17,19 @@ class FieldController extends AdminBaseController
     /**
      * @var FieldRepository
      */
-    private $field;
+    private FieldRepository $field;
 
-    public function __construct(FieldRepository $field)
+    /**
+     * @var Type
+     */
+    private Type $type;
+
+    public function __construct(FieldRepository $field, Type $type)
     {
         parent::__construct();
 
         $this->field = $field;
+        $this->type=$type;
     }
 
     /**
@@ -31,7 +39,7 @@ class FieldController extends AdminBaseController
      */
     public function index()
     {
-        //$fields = $this->field->all();
+        $fields = $this->field->all();
 
         return view('form::admin.fields.index', compact(''));
     }
@@ -41,9 +49,11 @@ class FieldController extends AdminBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Form $form)
     {
-        return view('form::admin.fields.create');
+        $types=$this->type->lists();
+
+        return view('form::admin.fields.create',compact('form','types'));
     }
 
     /**
@@ -54,9 +64,9 @@ class FieldController extends AdminBaseController
      */
     public function store(CreateFieldRequest $request)
     {
+        $form=$request->input('form_id');
         $this->field->create($request->all());
-
-        return redirect()->route('admin.form.field.index')
+        return redirect()->route('admin.form.form.edit',$form)
             ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('form::fields.title.fields')]));
     }
 
@@ -66,9 +76,9 @@ class FieldController extends AdminBaseController
      * @param  Field $field
      * @return Response
      */
-    public function edit(Field $field)
+    public function edit(Form $form, Field $field)
     {
-        return view('form::admin.fields.edit', compact('field'));
+        return view('form::admin.fields.edit', compact('form','field'));
     }
 
     /**
@@ -78,7 +88,7 @@ class FieldController extends AdminBaseController
      * @param  UpdateFieldRequest $request
      * @return Response
      */
-    public function update(Field $field, UpdateFieldRequest $request)
+    public function update(Form $form, Field $field, UpdateFieldRequest $request)
     {
         $this->field->update($field, $request->all());
 
@@ -92,7 +102,7 @@ class FieldController extends AdminBaseController
      * @param  Field $field
      * @return Response
      */
-    public function destroy(Field $field)
+    public function destroy(Form $form, Field $field)
     {
         $this->field->destroy($field);
 

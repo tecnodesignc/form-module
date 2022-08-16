@@ -8,12 +8,17 @@ class CreateFormRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'system_name' => 'required|min:2',
+            'destination_email' => 'required|min:2',
+        ];
     }
 
     public function translationRules()
     {
-        return [];
+        return [
+            'title' => 'required|min:2',
+            ];
     }
 
     public function authorize()

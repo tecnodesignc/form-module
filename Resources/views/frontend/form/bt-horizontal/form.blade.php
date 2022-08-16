@@ -10,9 +10,8 @@
 </div>
 <div class="content-form{{$options['rand']}}">
   <div class="formerror"></div>
-  <form id="{{$id}}" class="form-horizontal" method="post" action="{{route('api.form.leads.create')}}">
+  <form id="{{$id}}" class="form-horizontal" method="post" action="{{route('form.lead')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
-
     @include('form::frontend.form.bt-horizontal.fields')
 
     <div class="col-sm-offset-2 col-sm-10">
@@ -27,4 +26,4 @@
     </div>
   </form>
 </div>
-@include('form::frontend.form.mainlayout')
+

@@ -1,9 +1,11 @@
 {
+    "title": "Form",
     "name": "Form",
     "alias": "form",
-    "description": "Form module for EncoreCMS",
+    "author": "TecnoDesign",
+    "description": "Form module for EncoreCMS 2",
     "keywords": ["forms","emails","Send Emails"],
-    "version": "1.0.0",
+    "version": "2.0.0",
 	"active": 1,
     "priority": 1,
     "providers": [
@@ -14,6 +16,9 @@
     "aliases": {
         "Forms": "Modules\\Form\\Facades\\FormFacade"
     },
-    "files": [],
-    "requires": []
+    "files": [
+        "composers.php"
+    ],
+    "requires": [],
+    "minimumCoreVersion": "2.0"
 }

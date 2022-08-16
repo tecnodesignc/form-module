@@ -2,130 +2,92 @@
 
 namespace Modules\Form\Http\Controllers;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\Mail;
-use Log;
-use Mockery\CountValidator\Exception;
-use Modules\Core\Http\Controllers\BasePublicController;
-use Modules\Form\Entities\Lead;
-use Modules\Form\Http\Requests\CreateLeadRequest;
-use Modules\Form\Repositories\FieldRepository;
+// Requests & Response
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Modules\Form\Http\Requests\CreateFieldRequest;
+use Modules\Form\Http\Requests\UpdateLeadRequest as UpdateRequest;
 use Modules\Form\Repositories\FormRepository;
-use Modules\Setting\Contracts\Setting;
-use Request;
+use Modules\Form\Repositories\LeadRepository;
+use Modules\Form\Services\LeadsExportService;
+use Modules\Core\Http\Controllers\BasePublicController;
+use Illuminate\Support\Facades\Storage;
 
 class PublicController extends BasePublicController
 {
 
     private $lead;
-
-    /**
-     * @var Application
-     */
-    private $app;
     private $form;
-    private $setting;
-    private $field;
 
-    public function __construct(Application $app, Setting $setting, FieldRepository $field, FormRepository $form)
+    public function __construct(LeadRepository $lead, FormRepository $form)
     {
         parent::__construct();
-        $this->app = $app;
-        $this->setting = $setting;
-        $this->field = $field;
+        $this->lead = $lead;
         $this->form = $form;
-
     }
 
 
-    public function store(CreateLeadRequest $request)
+    public function store(CreateFieldRequest $request)
+    {
+         \DB::beginTransaction();
+            try {
+                $data = $request->all() ?? [];//Get data
+
+                $form = $this->form->find($data['form_id']);
+                if (empty($form->id)) {
+                    throw new \Exception(trans('form::common.forms_not_found'));
+                }
+
+
+                $validator = \Validator::make($data, [
+                    'g-recaptcha-response' => 'required|captcha'
+                ]);
+                if ($validator->fails()) {
+                    $response['status']="fail";
+                    $response['data']["g-recaptcha-response"] = trans('forms::common.captcha_required');
+                }
+
+                $attr = array();
+                $attr['form'] = $form;
+                $attr['form_id'] = $form->id;
+                $attr['values'] = array();
+                $attr['reply'] = ['to'=>env('MAIL_FROM_ADDRESS'),'toName'=>'Client'];
+                $fields = $form->fields;
+                foreach ($fields as $field) {
+                    if ($field->name == 'email') {
+                        $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
+                    }
+                    if ($field->name == 'name') {
+                        $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
+                    }
+
+                    if($field->type=='file'){
+                        if (isset($data[$field->name])){
+                            $path= $data[$field->name]->store('invoices/'.time(),'publicmedia');
+                            $attr['values'][$field->name] = $path;
+                        }
+                    }else{
+                        $attr['values'][$field->name] = $data[$field->name];
+                    }
+                }
+                $attr['reply']=json_decode(json_encode($attr['reply']));
+                //Create item
+                $newData = $this->lead->create($attr);
+                \DB::commit();//Commit to Data Base
+                return redirect()->route('form.thank');
+            } catch (\Exception $e) {
+                \DB::rollback();
+                \Log::error($e);
+                return redirect()->back()
+                    ->withError($e->getMessage())->withInput($request->all());
+            }
+    }
+    public function thank()
     {
 
-        $data=$request->all();
-        $response = array();
-        $response['status'] = 'error'; //default
-        $response['data'] = array(); //default
-
-        try {
-            $data = Request::all();
-
-            $form = $this->form->find($data['form_id']);
-            if (empty($form->id)) {
-                throw new \Exception(trans('form::common.forms_not_found'));
-            }
-            $attr = array();
-            $attr['form_id'] = $form->id;
-            $attr['options'] = array();
-
-            foreach ($this->fields as $field) {
-
-                if (!empty($field->name) && !empty($data[$field['name']])) {
-                    if ($field->name == 'email') {
-                        $replyto = $data['email'];
-                    } else {
-                        $replyto = env('MAIL_FROM_ADDRESS');
-                    }
-                    if ($field['name'] == 'name') {
-                        $replytoname = $data['name'];
-                    } else {
-                        $replytoname = 'Client';
-                    }
-
-                    $attr['options'][$field['name']] = $data[$field['name']];
-                }
-            }
-
-            //TODO: Verify required parameters here.
-
-            if ($response['status'] == "fail") {
-                return response()->json($response);
-            }
-
-
-            $attr['options'] = json_encode($attr['options']);
-
-            $this->lead->create($attr);
-
-            /**
-             * Send email
-             */
-
-            $emails = explode(',', $this->setting->get('form::form-emails'));
-            if (isset($form->options->destination_email) && !empty($form->options->destination_email)) {
-                array_push($emails, $form->options->destination_email);
-            }
-
-            $from = $this->setting->get('form::from-email');
-            if (empty($from)) {
-                $from = env('MAIL_FROM_ADDRESS');
-            }
-            $sender = $this->setting->get('core::site-name');
-            $title = $this->form->title;
-            Mail::send(['form::frontend.emails.form', 'form::frontend.emails.textform'],
-                [
-                    'data' => $data,
-                    'form' => $this->form,
-                ], function ($message) use ($emails, $sender, $title, $from, $replyto, $replytoname) {
-                    $message->to($emails, $sender)
-                        ->replyTo($replyto, $replytoname)
-                        ->from($from, $sender)
-                        ->subject($title);
-                });
-
-
-            $response['status'] = 'success';
-            //$response['message'] = '';
-
-        } catch (\Exception $t) {
-            //var_dump($t);
-            $response['status'] = 'error';
-            $response['message'] = $t->getMessage();
-            Log::error($response);
-        }
-
-
-        return response()->json($response);
-
+        $lead['form']=$this->form->findBySystemName('inscription');
+        $lead['lead']=$this->lead->find(275);
+       return view('forms.emails.response.inscription',compact('lead'));
 
     }
 

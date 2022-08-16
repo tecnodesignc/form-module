@@ -48,7 +48,7 @@
                   },
                   error: function (data) {
                       $('#loading-form').css('display', 'none');
-                      $(".content-form{{$id}} .formerror").append('<p class="alert alert-danger" role="alert"  style="padding:10px; border-radius: 10px; color: #fff"><span>' + data.responseJSON.errors + '</span> </p>');
+                      $(".content-form{{$id}} .formerror").append('<p class="alert alert-danger" role="alert"  style="padding:10px; border-radius: 10px;"><span>' + data.responseJSON.errors + '</span> </p>');
                   }
               })
           })

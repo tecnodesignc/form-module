@@ -53,7 +53,7 @@ class Type extends Model
       ],
       [
         'id' => self::SELECTMULTIPLE,
-        'name' => trans('form::common.types.selectmultiple'),
+        'name' => trans('form::common.types.select multiple'),
         'value' => 'multiSelect'
       ],
       [

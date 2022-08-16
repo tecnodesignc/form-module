@@ -17,7 +17,7 @@ class CreateFormFieldTranslationsTable extends Migration
       $table->increments('id');
       $table->string('label')->index();
       $table->string('placeholder');
-      $table->string('description');
+      $table->string('description')->nullable();
       $table->integer('field_id')->unsigned();
       $table->string('locale')->index();
       $table->unique(['field_id', 'locale']);

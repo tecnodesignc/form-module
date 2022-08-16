@@ -25,9 +25,9 @@ class Sendmail extends Mailable implements ShouldQueue
      */
     public function __construct($lead, $subject, $view)
     {
-        $this->lead=$lead;
-        $this->subject=$subject;
-        $this->view=$view;
+        $this->lead = $lead;
+        $this->subject = $subject;
+        $this->view = $view;
     }
 
     /**
@@ -37,6 +37,11 @@ class Sendmail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view($this->view)->subject($this->subject);
+        $email = $this->view($this->view)->subject($this->subject);
+        $file = $this->lead['form']->fields->where('type', 'file')->first();
+        if (isset($file) && (isset($this->lead['lead']->values[$file->name]) && !empty($this->lead['lead']->values[$file->name]))) {
+            $email->attach(public_path().'/' . $this->lead['lead']->values[$file->name]);
+        };
+        return $email;
     }
 }

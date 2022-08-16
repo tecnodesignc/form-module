@@ -15,34 +15,6 @@ class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
   }
 
     /**
-     * List or resources
-     *
-     * @param $params
-     * @return collection
-     */
-  public function getItemsBy($params)
-  {
-    return $this->remember(function () use ($params) {
-      return $this->repository->getItemsBy($params);
-    });
-  }
-
-    /**
-     * find a resource by id or slug
-     *
-     * @param $criteria
-     * @param $params
-     * @return object
-     */
-  public function getItem($criteria, $params)
-  {
-    return $this->remember(function () use ($criteria, $params) {
-      return $this->repository->getItem($criteria, $params);
-    });
-  }
-
-
-    /**
      * Find by System Name
      * @param $systemName
      * @return mixed

@@ -14,8 +14,20 @@ return [
         'create field' => 'Create a field',
     ],
     'table' => [
+        'label'=>'Etiqueta',
+        'type'=>'Tipo',
+        'name'=>'Nombre en el Sistema',
+        'order'=>  'Orden'
     ],
     'form' => [
+        'label'=>'Etiqueta',
+        'placeholder'=>'Placeholder',
+        'description'=>'Descripción',
+        'Non translatable fields'=>'Campos no traducibles',
+        'type'=>'Tipo de Dato',
+        'name'=>'Nombre en el Sistema',
+        'required'=>'Campo Requerido',
+        'order'=>  'Orden'
     ],
     'messages' => [
     ],

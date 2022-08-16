@@ -8,12 +8,20 @@ class CreateFieldRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'type' => 'required',
+            'name' => 'required|min:2',
+            'form_id' => 'required',
+            'order' => 'required'
+        ];
     }
 
     public function translationRules()
     {
-        return [];
+        return [
+            'label' => 'required|min:2',
+            'placeholder' => 'required|min:2'
+        ];
     }
 
     public function authorize()

@@ -1,4 +1,4 @@
-## Forms Module | 1.0.0
+## Forms Module | 2.0.0
 
 ### Installation
 

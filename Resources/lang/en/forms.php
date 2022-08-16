@@ -14,11 +14,28 @@ return [
         'create form' => 'Create a form',
     ],
     'table' => [
+        'id' => 'Id',
+        'title' => 'Title',
+        'name'=>'System Name',
+        'status'=>'Status',
+        'field count'=>'Field Count'
     ],
     'form' => [
+        'Non translatable fields'=>'Non translatable fields',
+        'title' => 'Title',
+        'system name'=>'System Name',
+        'destination email'=>'Destination Email',
+        'designation user'=>'Destination User',
+        'send response emails'=>'Send Response Emails',
+        'send confirmation'=>'Send Confirmation',
+        'subject'=>'Subject',
+        'template'=>'Template',
+        'default'=>'Default View',
+        'active'=>'Active'
     ],
     'messages' => [
         'from'=>' from ',
+        'tanks you'=>'Thanks for writing to us'
 
     ],
     'validation' => [

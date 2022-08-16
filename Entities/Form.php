@@ -20,12 +20,16 @@ class Form extends Model
         'active',
         'destination_email',
         'user_id',
-        'options',
+        'send_confirmation',
+        'template',
+        'subject',
+        'options'
     ];
 
     protected $casts = [
         'options' => 'array',
-        'destination_email' => 'array'
+        'destination_email' => 'array',
+        'send_confirmation'=>'boolean'
     ];
 
     public function fields()
