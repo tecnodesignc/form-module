@@ -1,7 +1,7 @@
 {
     "name": "tecnodesignc/form-module",
     "type": "encore-module",
-    "description": "Form module for EncoreCMS 2",
+    "description": "Form module for EncoreCMS 3",
     "keywords": ["forms","emails","Send Emails"],
     "license": "MIT",
     "authors": [
@@ -16,9 +16,9 @@
         "source": "https://github.com/tecnodesignc/form-module"
     },
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.2",
         "composer/installers": "^2.1",
-        "tecnodesignc/core-module": "^2.0",
+        "tecnodesignc/core-module": "^3.0",
         "josiasmontag/laravel-recaptchav3": "^1.0",
         "guzzlehttp/psr7": "^2.2"
     },
@@ -37,7 +37,7 @@
             "Modules\\Form\\": ""
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
 
     "extra": {
@@ -45,9 +45,7 @@
             "providers": [
                 "Modules\\Form\\Providers\\FormServiceProvider"
             ],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
     }
 

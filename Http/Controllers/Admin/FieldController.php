@@ -78,7 +78,8 @@ class FieldController extends AdminBaseController
      */
     public function edit(Form $form, Field $field)
     {
-        return view('form::admin.fields.edit', compact('form','field'));
+        $types=$this->type->lists();
+        return view('form::admin.fields.edit', compact('form','field','types'));
     }
 
     /**
@@ -92,7 +93,7 @@ class FieldController extends AdminBaseController
     {
         $this->field->update($field, $request->all());
 
-        return redirect()->route('admin.form.field.index')
+        return redirect()->route('admin.form.form.edit',$form)
             ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('form::fields.title.fields')]));
     }
 
@@ -106,7 +107,7 @@ class FieldController extends AdminBaseController
     {
         $this->field->destroy($field);
 
-        return redirect()->route('admin.form.field.index')
+        return redirect()->route('admin.form.form.edit',$form)
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('form::fields.title.fields')]));
     }
 }
